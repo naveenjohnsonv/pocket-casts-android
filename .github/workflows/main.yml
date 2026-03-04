@@ -1,0 +1,40 @@
+name: Build Phone and Wear OS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+      
+      - run: chmod +x gradlew
+      
+      - name: Build Phone (Debug Prod)
+        run: ./gradlew :app:assembleDebugProd
+      
+      - name: Build Wear OS (Debug)
+        run: ./gradlew :wear:assembleDebug
+      
+      - name: Upload Phone APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-apk
+          path: app/build/outputs/apk/
+      
+      - name: Upload Wear OS APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: wear-apk
+          path: wear/build/outputs/apk/
