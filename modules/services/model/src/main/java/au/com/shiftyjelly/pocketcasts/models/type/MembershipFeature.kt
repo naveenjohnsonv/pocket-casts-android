@@ -10,10 +10,7 @@ data class Membership(
     val createdAt: Instant?,
     val features: List<MembershipFeature>,
 ) {
-    fun hasFeature(feature: MembershipFeature): Boolean {
-        val isSubscriptionFeature = subscription?.tier?.hasFeature(feature) == true
-        return isSubscriptionFeature || feature in features
-    }
+    fun hasFeature(feature: MembershipFeature): Boolean = true
 
     companion object {
         val Empty = Membership(
@@ -28,16 +25,4 @@ data class Membership(
 enum class MembershipFeature {
     NoBannerAds,
     NoDiscoverAds,
-}
-
-private fun SubscriptionTier.hasFeature(feature: MembershipFeature) = when (this) {
-    SubscriptionTier.Plus -> when (feature) {
-        MembershipFeature.NoBannerAds -> true
-        MembershipFeature.NoDiscoverAds -> true
-    }
-
-    SubscriptionTier.Patron -> when (feature) {
-        MembershipFeature.NoBannerAds -> true
-        MembershipFeature.NoDiscoverAds -> true
-    }
 }

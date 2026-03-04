@@ -33,16 +33,16 @@ sealed interface SignInState {
             get() = true
 
         override val isSignedInAsFree
-            get() = subscription == null
+            get() = false
 
         override val isSignedInAsPlus
-            get() = subscription?.tier == SubscriptionTier.Plus
+            get() = true
 
         override val isSignedInAsPatron: Boolean
-            get() = subscription?.tier == SubscriptionTier.Patron
+            get() = true
 
         override val isSignedInAsPaid: Boolean
-            get() = subscription?.platform?.isPaid == true
+            get() = true
 
         override val isExpiredTrial: Boolean
             get() = subscription?.platform == SubscriptionPlatform.Gift && subscription.expiryDate < Instant.now()
@@ -53,16 +53,16 @@ sealed interface SignInState {
             get() = false
 
         override val isSignedInAsFree
-            get() = false
+            get() = true
 
         override val isSignedInAsPlus
-            get() = false
+            get() = true
 
         override val isSignedInAsPatron: Boolean
-            get() = false
+            get() = true
 
         override val isSignedInAsPaid: Boolean
-            get() = false
+            get() = true
 
         override val isExpiredTrial: Boolean
             get() = false
